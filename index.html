@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ramana Chat</title>
+    <style>
+        .dark-mode {
+            background-color: black;
+            color: white;
+        }
+
+        header {
+            background-color: black;
+            color: #fff;
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+      
+        .iconss {
+            margin-left: 10px;
+        }
+
+        .labelsss {
+            display: flex;
+            flex-direction: column;
+        }
+
+        h1 {
+            margin: 0;
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            -webkit-transition: .4s;
+            transition: .4s;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            -webkit-transition: .4s;
+            transition: .4s;
+        }
+
+        input:checked + .slider {
+            background-color: #2196F3;
+        }
+
+        input:focus + .slider {
+            box-shadow: 0 0 1px #2196F3;
+        }
+
+        input:checked + .slider:before {
+            -webkit-transform: translateX(26px);
+            -ms-transform: translateX(26px);
+            transform: translateX(26px);
+        }
+
+        .slider.round {
+            border-radius: 34px;
+        }
+
+        .slider.round:before {
+            border-radius: 50%;
+        }
+        .custom_container {
+      display: flex;
+      gap: 1px;
+      margin-top: 20px;
+    }
+
+    .input-field {
+      padding: 10px;
+      width: 100%;
+      box-sizing: border-box;
+      transition: border-color 0.3s ease;
+    }
+
+    .input-field:hover,
+    .input-field:focus {
+      border-color: #3498db;
+    }
+
+    .custom-button {
+      padding: 10px 20px;
+      background-color: #3498db;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .custom-button:hover {
+      background-color: #2980b9;
+    }
+        #comingMessage {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: #4CAF50;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            display: none;
+        }
+        #comingMessage1 {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: #ff3636;
+            color: white;
+            text-align: center;
+            padding: 11px;
+            display: none;
+        }
+        body {
+          margin: 0 auto;
+          max-width: 800px;
+          padding: 0 20px;
+          background-color: white;
+            color: black;
+        }
+        
+        .container {
+          border: 2px solid #dedede;
+          background-color: #f1f1f1;
+          border-radius: 5px;
+          padding: 10px;
+          margin: 10px 0;
+        }
+        
+        .darker {
+          border-color: #ccc;
+          background-color: #ddd;
+        }
+        
+        .container::after {
+          content: "";
+          clear: both;
+          display: table;
+        }
+        
+        .container img {
+          float: left;
+          max-width: 60px;
+          width: 100%;
+          margin-right: 20px;
+          border-radius: 50%;
+        }
+        
+        .container img.right {
+          float: right;
+          margin-left: 20px;
+          margin-right:0;
+        }
+        
+        .time-right {
+          float: right;
+          color: #aaa;
+        }
+        
+        .time-left {
+          float: left;
+          color: #999;
+        }
+.scrollable-div {
+    height: 500px;
+            overflow-y: scroll;
+            border: 1px solid #ccc;
+            padding: 10px;
+        }
+        .datatake {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      
+    }
+
+    .names {
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    .textdata {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 16px;
+      box-sizing: border-box;
+    }
+
+    .forjoin {
+      background-color: #4caf50;
+      color: #fff;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    .forjoin:hover {
+      background-color: #45a049;
+    }
+        
+        </style>
+</head>
+<body>
+    <div id="comingMessage">You are leaving from chat room<br>
+    VIST AGAIN</div>
+
+    <div id="comingMessage1" style="display:none;">Enter The room Code and User Name</div>
+    <header>
+        <label id="rama" class="switch" style="display:block;">
+            <input type="checkbox" onclick="myFunction()">
+            <span class="slider round"></span>
+        </label>
+        <h1>Chat Room</h1>
+        <div class="labelsss">
+            <span id="Label1">User Name</span>
+            <span id="Label2">Room Code</span>
+            <button onclick="reloadPage()" style="display:none;" id="leave">Leave</button>
+
+        </div>
+        
+    </header>
+
+    <div class="datatake" style="display:block;" id="enterram">
+        
+        <label class="names" for="username">User Name</label>
+        <input class="textdata" type="text" id="user-name" placeholder="Enter your name...">
+        <!-- <input class="textdata" type="text" id="username" name="username"> -->
+    
+        <label class="names" for="password">Room Code</label>
+        <input class="textdata" type="text" id="room-code" placeholder="Enter room code...">
+        <!-- <input class="textdata" type="password" id="password" name="password" required> -->
+    
+        <button class="forjoin" onclick="connectToRoom()" id="setbt" style="display:block;">Join</button>
+      </div>
+
+<!-- 
+    <label for="user-name">Your Name:</label>
+    <input type="text" id="user-name" placeholder="Enter your name...">
+
+    <label for="room-code">Room Code:</label>
+    <input type="text" id="room-code" placeholder="Enter room code..."> -->
+    <!-- <button onclick="connectToRoom()" id="setbt" style="display:block;">Join</button> -->
+
+    <div class="scrollable-div" id="chat-box" style="display:none;">
+        
+    </div>
+    <!-- <div id="chat-box"></div> -->
+    
+    <!-- <input type="text" id="message-input" placeholder="Type your message..." style="display:none;">
+    <button onclick="sendMessage()" id="send" style="display:none;">Send</button> -->
+
+    <div class="custom_container">
+        <input class="input-field" type="text" id="message-input" placeholder="Type your message..." style="display:none;">
+        <button class="custom-button" onclick="sendMessage()" id="send" style="display:none;" type="button">Send</button>
+        <button class="custom-button" onclick="sendMessage()" id="send" style="display:none;" type="button"><i class="fa fa-send"></i> Send</button>  
+    </div>
+
+    <script>
+        function reloadPage() {
+            // alert('You Will be Left from the  chat room');
+            // location.reload();
+             var comingMessage = document.getElementById("comingMessage");
+            comingMessage.style.display = "block";
+            dlm.style.display = "none";
+            setTimeout(function () {
+                location.reload();
+            },2000); 
+            
+        }
+        var input = document.getElementById("message-input");
+        var dlm = document.getElementById("rama");
+        input.addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+                event.preventDefault();
+                document.getElementById("send").click();
+            }
+        });
+        let roomCodeInput = document.getElementById("room-code");
+        let userNameInput = document.getElementById("user-name");  
+
+        let socket;
+        
+        const messageInput = document.getElementById("message-input");
+        const sendButton = document.getElementById("send");
+        const chatBox = document.getElementById("chat-box");
+        const leaveButton = document.getElementById("leave");
+
+        function connectToRoom() {
+            
+            const enterram = document.getElementById("enterram");  
+            const roomCode = roomCodeInput.value.trim();
+            const userName = userNameInput.value || "Jai Sri Ram";
+            let label1 = document.getElementById("Label1");
+                let label2 = document.getElementById("Label2");
+                label2.innerHTML = "Room Code :  "+roomCode;
+                label1.innerHTML = "User Name :  "+userName;
+
+
+            if (roomCode) {
+                socket = new WebSocket(`ws://localhost:2004/${roomCode}`);
+
+                socket.onopen = function() {
+                    socket.send(userName);
+                    setbt.style.display = "none";
+                    chatBox.style.display = "block";
+                    leaveButton.style.display = "block";
+                    messageInput.style.display = "block";
+                    sendButton.style.display = "block";
+                    enterram.style.display = "none";
+                    // userNameInput.readOnly = true;
+                    // roomCodeInput.readOnly = true;
+                };
+                socket.onmessage = function(event) {
+                    const message = event.data;
+                    var today = new Date();
+                    var time = today.getHours() + ":" + today.getMinutes();
+                    chatBox.innerHTML += `<div class="container">
+                        <img src="https://shorturl.at/emrKT" alt="Avatar" class="right" style="width: 50px; height: 50px; border-radius: 50%;">
+                        <p>${message}</p>
+                        <span class="time-right">${time}</span>
+                        </div>`;
+                        var myScrollableDiv = document.getElementById('chat-box');
+                        myScrollableDiv.scrollTop = myScrollableDiv.scrollHeight;
+                    // `<p>${message}</p>`;
+                    
+                };
+                
+            }
+            else{
+                var comingMessage1 = document.getElementById("comingMessage1");
+                comingMessage1.style.display = "block";
+                dlm.style.display = "none";
+                setTimeout(function () {
+                location.reload();
+            },2000);
+            }
+        }
+
+        function sendMessage() {
+            const message = messageInput.value;
+            // const userName = userNameInput.value || "Jai Sri Ram" || "Jai"; 
+
+            if (socket && socket.readyState === WebSocket.OPEN) {
+                const messageWithUserName = ` ${message}`;
+                // const messageWithUserName = `${message}`;
+                socket.send(messageWithUserName);
+            }
+            messageInput.value = "";
+        }
+        function myFunction() {
+            var element = document.body;
+            element.classList.toggle("dark-mode");
+        }
+    </script>
+</body>
+</html>
